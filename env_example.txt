@@ -1,0 +1,34 @@
+# Flask Configuration
+SECRET_KEY=your-secret-key-here-change-this-in-production
+DEBUG=True
+HOST=0.0.0.0
+PORT=5000
+
+# Database Configuration
+DATABASE_PATH=data/profiles.db
+
+# Scraping Configuration
+REQUEST_DELAY=2.0
+MAX_RETRIES=3
+TIMEOUT=30
+REQUESTS_PER_MINUTE=20
+REQUESTS_PER_HOUR=100
+
+# Future Founder Criteria
+TARGET_AGE_MIN=25
+TARGET_AGE_MAX=35
+IDEAL_AGE_MIN=25
+IDEAL_AGE_MAX=30
+RAPID_PROMOTION_YEARS=3
+MIN_CAREER_GROWTH_RATE=1.5
+
+# Logging
+LOG_LEVEL=INFO
+LOG_FILE=logs/app.log
+
+# API Keys (optional)
+LINKEDIN_API_KEY=
+CLEARBIT_API_KEY=
+
+# Export Settings
+MAX_EXPORT_RECORDS=1000 

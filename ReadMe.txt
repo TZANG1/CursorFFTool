@@ -1,0 +1,2 @@
+I want to build a webscraper that finds professionals who fit the profile of the ideal "Future Founder"
+These people will be young, ideally 25-30, not older than 35, and will have evidence of rapid career progression upon graduation 

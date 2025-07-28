@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ profile.name }} - Future Founder Finder</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .score-badge {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        .progress-bar {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="gradient-bg text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <i class="fas fa-rocket text-2xl mr-3"></i>
+                    <h1 class="text-xl font-bold">Future Founder Finder</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="/" class="hover:text-gray-200 transition-colors">
+                        <i class="fas fa-home mr-2"></i>Home
+                    </a>
+                    <a href="/profiles" class="hover:text-gray-200 transition-colors">
+                        <i class="fas fa-users mr-2"></i>Profiles
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Profile Header -->
+        <div class="bg-white rounded-lg shadow-lg p-8 mb-8">
+            <div class="flex items-start justify-between">
+                <div class="flex items-center">
+                    <div class="h-20 w-20 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 flex items-center justify-center text-white text-2xl font-bold">
+                        {{ profile.name[0] if profile.name else '?' }}
+                    </div>
+                    <div class="ml-6">
+                        <h1 class="text-3xl font-bold text-gray-900">{{ profile.name or 'N/A' }}</h1>
+                        <p class="text-xl text-gray-600">{{ profile.title or 'N/A' }}</p>
+                        <p class="text-lg text-blue-600">{{ profile.company or 'N/A' }}</p>
+                        <p class="text-gray-500">{{ profile.location or 'N/A' }}</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <div class="score-badge text-white text-lg font-bold px-4 py-2 rounded-full">
+                        {{ "%.0f"|format(profile.score * 100) }}% Match
+                    </div>
+                    <p class="text-sm text-gray-500 mt-2">Future Founder Score</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Details Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left Column -->
+            <div class="lg:col-span-2 space-y-8">
+                <!-- Career Progression -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h2 class="text-xl font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-chart-line mr-3 text-green-600"></i>Career Progression
+                    </h2>
+                    {% if profile.career_progression %}
+                    <div class="space-y-4">
+                        {% for position in profile.career_progression %}
+                        <div class="flex items-center p-4 bg-gray-50 rounded-lg">
+                            <div class="flex-shrink-0 h-10 w-10 bg-green-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-briefcase text-green-600"></i>
+                            </div>
+                            <div class="ml-4 flex-1">
+                                <h3 class="text-lg font-medium text-gray-900">{{ position.title or 'N/A' }}</h3>
+                                <p class="text-gray-600">{{ position.company or 'N/A' }}</p>
+                                {% if position.duration %}
+                                <p class="text-sm text-gray-500">{{ position.duration }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p class="text-gray-500">No career progression data available</p>
+                    {% endif %}
+                </div>
+
+                <!-- Skills -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h2 class="text-xl font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-tools mr-3 text-blue-600"></i>Skills
+                    </h2>
+                    {% if profile.skills %}
+                    <div class="flex flex-wrap gap-2">
+                        {% for skill in profile.skills %}
+                        <span class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full">
+                            {{ skill }}
+                        </span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p class="text-gray-500">No skills data available</p>
+                    {% endif %}
+                </div>
+
+                <!-- Achievements -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h2 class="text-xl font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-trophy mr-3 text-yellow-600"></i>Key Achievements
+                    </h2>
+                    {% if profile.achievements %}
+                    <ul class="space-y-3">
+                        {% for achievement in profile.achievements %}
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                            <span class="text-gray-700">{{ achievement }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p class="text-gray-500">No achievements data available</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="space-y-8">
+                <!-- Profile Stats -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h2 class="text-xl font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-chart-bar mr-3 text-purple-600"></i>Profile Stats
+                    </h2>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Age</span>
+                            <span class="font-semibold">{{ profile.age or 'N/A' }} years</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Experience</span>
+                            <span class="font-semibold">{{ profile.experience_years or 'N/A' }} years</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Industry</span>
+                            <span class="font-semibold">{{ profile.industry or 'N/A' }}</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Location</span>
+                            <span class="font-semibold">{{ profile.location or 'N/A' }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Education -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h2 class="text-xl font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-graduation-cap mr-3 text-indigo-600"></i>Education
+                    </h2>
+                    <p class="text-gray-700">{{ profile.education or 'No education data available' }}</p>
+                </div>
+
+                <!-- Score Breakdown -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h2 class="text-xl font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-analytics mr-3 text-orange-600"></i>Score Breakdown
+                    </h2>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span>Age Score</span>
+                                <span>25%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="progress-bar h-2 rounded-full" style="width: 25%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span>Career Progression</span>
+                                <span>35%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="progress-bar h-2 rounded-full" style="width: 35%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span>Company Prestige</span>
+                                <span>20%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="progress-bar h-2 rounded-full" style="width: 20%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span>Title Level</span>
+                                <span>15%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="progress-bar h-2 rounded-full" style="width: 15%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span>Education</span>
+                                <span>5%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="progress-bar h-2 rounded-full" style="width: 5%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h2 class="text-xl font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-ellipsis-h mr-3 text-gray-600"></i>Actions
+                    </h2>
+                    <div class="space-y-3">
+                        {% if profile.linkedin_url %}
+                        <a href="{{ profile.linkedin_url }}" target="_blank" 
+                           class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center">
+                            <i class="fab fa-linkedin mr-2"></i>
+                            View LinkedIn Profile
+                        </a>
+                        {% endif %}
+                        <button class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center">
+                            <i class="fas fa-envelope mr-2"></i>
+                            Send Message
+                        </button>
+                        <button class="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center">
+                            <i class="fas fa-star mr-2"></i>
+                            Add to Favorites
+                        </button>
+                        <button class="w-full bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center">
+                            <i class="fas fa-download mr-2"></i>
+                            Export Profile
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Back Button -->
+        <div class="mt-8 text-center">
+            <a href="/profiles" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200 inline-flex items-center">
+                <i class="fas fa-arrow-left mr-2"></i>
+                Back to All Profiles
+            </a>
+        </div>
+    </div>
+</body>
+</html> 

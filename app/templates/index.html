@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Future Founder Finder</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .score-badge {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        .loading {
+            display: none;
+        }
+        .loading.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="gradient-bg text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <i class="fas fa-rocket text-2xl mr-3"></i>
+                    <h1 class="text-xl font-bold">Future Founder Finder</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="/profiles" class="hover:text-gray-200 transition-colors">
+                        <i class="fas fa-users mr-2"></i>Profiles
+                    </a>
+                    <a href="/stats" class="hover:text-gray-200 transition-colors">
+                        <i class="fas fa-chart-bar mr-2"></i>Stats
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Hero Section -->
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold text-gray-900 mb-4">
+                Discover Tomorrow's Founders
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Find young professionals (25-30, max 35) with rapid career progression who have the potential to become successful entrepreneurs.
+            </p>
+        </div>
+
+        <!-- Search Section -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+            <h3 class="text-2xl font-semibold text-gray-900 mb-6">
+                <i class="fas fa-search mr-3 text-blue-600"></i>Search Profiles
+            </h3>
+            
+            <form id="searchForm" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Company</label>
+                    <input type="text" id="company" name="company" 
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                           placeholder="e.g., Google, Meta">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Industry</label>
+                    <select id="industry" name="industry" 
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="">All Industries</option>
+                        <option value="Technology">Technology</option>
+                        <option value="Software">Software</option>
+                        <option value="SaaS">SaaS</option>
+                        <option value="Fintech">Fintech</option>
+                        <option value="E-commerce">E-commerce</option>
+                        <option value="AI/ML">AI/ML</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Job Title</label>
+                    <input type="text" id="title" name="title" 
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                           placeholder="e.g., Product Manager">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Age Range</label>
+                    <div class="flex space-x-2">
+                        <input type="number" id="age_min" name="age_min" value="25" min="18" max="50"
+                               class="w-1/2 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <span class="flex items-center text-gray-500">to</span>
+                        <input type="number" id="age_max" name="age_max" value="35" min="18" max="50"
+                               class="w-1/2 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                </div>
+            </form>
+            
+            <div class="mt-6 flex justify-center">
+                <button type="submit" form="searchForm" 
+                        class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200 flex items-center">
+                    <i class="fas fa-search mr-2"></i>
+                    Search Profiles
+                </button>
+            </div>
+        </div>
+
+        <!-- Scraping Section -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+            <h3 class="text-2xl font-semibold text-gray-900 mb-6">
+                <i class="fas fa-spider mr-3 text-green-600"></i>Start Scraping
+            </h3>
+            
+            <form id="scrapeForm" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Target Companies</label>
+                    <select id="companies" name="companies" multiple
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 h-32">
+                        <option value="Google">Google</option>
+                        <option value="Meta">Meta</option>
+                        <option value="Microsoft">Microsoft</option>
+                        <option value="Apple">Apple</option>
+                        <option value="Amazon">Amazon</option>
+                        <option value="Netflix">Netflix</option>
+                        <option value="Uber">Uber</option>
+                        <option value="Airbnb">Airbnb</option>
+                        <option value="Stripe">Stripe</option>
+                        <option value="Square">Square</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Industries</label>
+                    <select id="industries" name="industries" multiple
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 h-32">
+                        <option value="Technology">Technology</option>
+                        <option value="Software">Software</option>
+                        <option value="SaaS">SaaS</option>
+                        <option value="Fintech">Fintech</option>
+                        <option value="E-commerce">E-commerce</option>
+                        <option value="AI/ML">AI/ML</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Max Profiles</label>
+                    <input type="number" id="max_profiles" name="max_profiles" value="100" min="10" max="1000"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                </div>
+            </form>
+            
+            <div class="mt-6 flex justify-center">
+                <button type="submit" form="scrapeForm" 
+                        class="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200 flex items-center">
+                    <i class="fas fa-play mr-2"></i>
+                    Start Scraping
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="resultsSection" class="hidden">
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-semibold text-gray-900">
+                        <i class="fas fa-users mr-3 text-purple-600"></i>Search Results
+                    </h3>
+                    <div class="flex space-x-2">
+                        <button id="exportBtn" class="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200">
+                            <i class="fas fa-download mr-2"></i>Export
+                        </button>
+                        <span id="resultCount" class="bg-gray-100 text-gray-700 font-semibold py-2 px-4 rounded-lg">
+                            0 profiles found
+                        </span>
+                    </div>
+                </div>
+                
+                <div id="resultsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Results will be populated here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Spinner -->
+        <div id="loadingSpinner" class="loading fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div class="bg-white rounded-lg p-8 flex flex-col items-center">
+                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mb-4"></div>
+                <p class="text-gray-700">Searching for future founders...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Card Template -->
+    <template id="profileCardTemplate">
+        <div class="bg-white rounded-lg shadow-md card-hover border border-gray-200">
+            <div class="p-6">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h4 class="text-lg font-semibold text-gray-900 profile-name"></h4>
+                        <p class="text-gray-600 profile-title"></p>
+                        <p class="text-blue-600 profile-company"></p>
+                    </div>
+                    <div class="score-badge text-white text-sm font-bold px-3 py-1 rounded-full profile-score"></div>
+                </div>
+                
+                <div class="space-y-2 mb-4">
+                    <div class="flex items-center text-sm text-gray-600">
+                        <i class="fas fa-map-marker-alt w-4 mr-2"></i>
+                        <span class="profile-location"></span>
+                    </div>
+                    <div class="flex items-center text-sm text-gray-600">
+                        <i class="fas fa-birthday-cake w-4 mr-2"></i>
+                        <span class="profile-age"></span>
+                    </div>
+                    <div class="flex items-center text-sm text-gray-600">
+                        <i class="fas fa-graduation-cap w-4 mr-2"></i>
+                        <span class="profile-education"></span>
+                    </div>
+                </div>
+                
+                <div class="flex justify-between items-center">
+                    <button class="text-blue-600 hover:text-blue-800 text-sm font-medium view-profile">
+                        View Details
+                    </button>
+                    <div class="flex space-x-2">
+                        <button class="text-gray-400 hover:text-blue-600 transition-colors">
+                            <i class="fab fa-linkedin"></i>
+                        </button>
+                        <button class="text-gray-400 hover:text-green-600 transition-colors">
+                            <i class="fas fa-envelope"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        // Search functionality
+        document.getElementById('searchForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const searchData = {
+                company: formData.get('company'),
+                industry: formData.get('industry'),
+                title: formData.get('title'),
+                age_min: parseInt(formData.get('age_min')),
+                age_max: parseInt(formData.get('age_max'))
+            };
+            
+            showLoading();
+            
+            try {
+                const response = await axios.post('/search', searchData);
+                
+                if (response.data.success) {
+                    displayResults(response.data.profiles);
+                    document.getElementById('resultCount').textContent = `${response.data.count} profiles found`;
+                } else {
+                    alert('Search failed: ' + response.data.error);
+                }
+            } catch (error) {
+                console.error('Search error:', error);
+                alert('An error occurred during search');
+            } finally {
+                hideLoading();
+            }
+        });
+
+        // Scraping functionality
+        document.getElementById('scrapeForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const scrapeData = {
+                companies: Array.from(formData.getAll('companies')),
+                industries: Array.from(formData.getAll('industries')),
+                max_profiles: parseInt(formData.get('max_profiles'))
+            };
+            
+            showLoading();
+            
+            try {
+                const response = await axios.post('/scrape', scrapeData);
+                
+                if (response.data.success) {
+                    alert('Scraping started successfully! Check the logs for progress.');
+                } else {
+                    alert('Scraping failed: ' + response.data.error);
+                }
+            } catch (error) {
+                console.error('Scraping error:', error);
+                alert('An error occurred while starting scraping');
+            } finally {
+                hideLoading();
+            }
+        });
+
+        // Export functionality
+        document.getElementById('exportBtn').addEventListener('click', async function() {
+            try {
+                const response = await axios.post('/export', {
+                    format: 'csv',
+                    profile_ids: [] // Export all profiles
+                });
+                
+                if (response.data.success) {
+                    alert('Export completed! Download will start shortly.');
+                } else {
+                    alert('Export failed: ' + response.data.error);
+                }
+            } catch (error) {
+                console.error('Export error:', error);
+                alert('An error occurred during export');
+            }
+        });
+
+        function displayResults(profiles) {
+            const container = document.getElementById('resultsContainer');
+            const template = document.getElementById('profileCardTemplate');
+            
+            container.innerHTML = '';
+            
+            profiles.forEach(profile => {
+                const clone = template.content.cloneNode(true);
+                
+                // Populate profile data
+                clone.querySelector('.profile-name').textContent = profile.name || 'N/A';
+                clone.querySelector('.profile-title').textContent = profile.title || 'N/A';
+                clone.querySelector('.profile-company').textContent = profile.company || 'N/A';
+                clone.querySelector('.profile-score').textContent = `${(profile.score * 100).toFixed(0)}%`;
+                clone.querySelector('.profile-location').textContent = profile.location || 'N/A';
+                clone.querySelector('.profile-age').textContent = profile.age ? `${profile.age} years old` : 'N/A';
+                clone.querySelector('.profile-education').textContent = profile.education || 'N/A';
+                
+                // Add click handler for view details
+                clone.querySelector('.view-profile').addEventListener('click', () => {
+                    window.location.href = `/profile/${profile.id}`;
+                });
+                
+                container.appendChild(clone);
+            });
+            
+            document.getElementById('resultsSection').classList.remove('hidden');
+        }
+
+        function showLoading() {
+            document.getElementById('loadingSpinner').classList.add('active');
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingSpinner').classList.remove('active');
+        }
+    </script>
+</body>
+</html> 
